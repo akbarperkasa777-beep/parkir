@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Platform manajemen parkir terintegrasi untuk operasional yang lebih efisien.">
+    <title>PARKIR-APP — All in One Parking Solution</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #e50914;
+            --red-dark: #bd0710;
+            --ink: #191b20;
+            --muted: #747983;
+            --soft: #f7f7f8;
+        }
+
+        html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+        body { margin: 0; color: var(--ink); font-family: Inter, Arial, sans-serif; }
+        a { text-decoration: none; }
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            border-bottom: 1px solid rgba(28, 31, 38, .07);
+            background: rgba(255, 255, 255, .96);
+            backdrop-filter: blur(14px);
+        }
+        .navbar { min-height: 78px; }
+        .brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); }
+        .brand:hover { color: var(--ink); }
+        .brand-pin { color: var(--red); font-size: 1.8rem; line-height: 1; }
+        .brand-name { font-size: 1.13rem; font-weight: 800; letter-spacing: -.055em; }
+        .brand-name span { color: var(--red); }
+        .nav-center { gap: 30px; }
+        .nav-center .nav-link { padding: 10px 0; color: #5e626b; font-size: .84rem; font-weight: 600; transition: color .2s ease; }
+        .nav-center .nav-link:hover { color: var(--red); }
+        .btn { border-radius: 8px; font-size: .82rem; font-weight: 700; transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease; }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-login { border: 1px solid #f0b6ba; color: var(--red); background: #fff; }
+        .btn-login:hover { border-color: var(--red); color: #fff; background: var(--red); box-shadow: 0 7px 18px rgba(229, 9, 20, .16); }
+        .btn-red { border: 1px solid var(--red); color: #fff; background: var(--red); box-shadow: 0 7px 18px rgba(229, 9, 20, .2); }
+        .btn-red:hover { border-color: var(--red-dark); color: #fff; background: var(--red-dark); box-shadow: 0 9px 22px rgba(229, 9, 20, .27); }
+        .language-button { border: 0; color: #4f535b; font-size: .8rem; font-weight: 700; }
+        .language-button::after { margin-left: .45em; }
+        .dropdown-menu { min-width: 110px; padding: 6px; border: 1px solid #eee; border-radius: 10px; box-shadow: 0 12px 30px rgba(22, 25, 32, .12); }
+        .dropdown-item { border-radius: 6px; font-size: .82rem; }
+        .dropdown-item:active { background: var(--red); }
+        .navbar-toggler { border: 1px solid #e7e8ea; border-radius: 8px; }
+
+        .hero {
+            position: relative;
+            min-height: min(740px, calc(100vh - 78px));
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            color: #fff;
+            background: #18212e url("https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=2200&q=85") center 54% / cover no-repeat;
+            isolation: isolate;
+        }
+        .hero::before {
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            content: "";
+            background:
+                linear-gradient(90deg, rgba(12, 16, 23, .88) 0%, rgba(12, 16, 23, .75) 42%, rgba(12, 16, 23, .33) 100%),
+                linear-gradient(0deg, rgba(12, 16, 23, .27), rgba(12, 16, 23, .12));
+        }
+        .hero-content { max-width: 790px; padding-top: 28px; padding-bottom: 48px; }
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 23px;
+            padding: 9px 13px;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 100px;
+            color: rgba(255, 255, 255, .9);
+            background: rgba(255, 255, 255, .09);
+            font-size: .73rem;
+            font-weight: 600;
+            letter-spacing: .025em;
+            backdrop-filter: blur(8px);
+        }
+        .hero-kicker i { color: #ff5860; }
+        .hero h1 { max-width: 800px; margin: 0; color: #fff; font-size: clamp(2.65rem, 5.55vw, 4.8rem); font-weight: 800; letter-spacing: -.065em; line-height: 1.08; }
+        .hero h1 .accent { color: #ff3944; }
+        .hero-copy { max-width: 625px; margin: 23px 0 0; color: rgba(255, 255, 255, .8); font-size: clamp(.98rem, 1.4vw, 1.1rem); line-height: 1.8; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 31px; }
+        .hero-actions .btn { min-height: 51px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 0 21px; }
+        .btn-hero-outline { border: 1px solid rgba(255, 255, 255, .72); color: #fff; background: rgba(255, 255, 255, .06); }
+        .btn-hero-outline:hover { border-color: #fff; color: var(--ink); background: #fff; }
+        .hero-note { display: flex; flex-wrap: wrap; gap: 21px; margin-top: 34px; color: rgba(255, 255, 255, .82); font-size: .77rem; font-weight: 500; }
+        .hero-note span { display: inline-flex; align-items: center; gap: 7px; }
+        .hero-note i { color: #75e4b1; }
+        .hero-scroll { position: absolute; right: max(25px, calc((100vw - 1140px) / 2)); bottom: 32px; color: rgba(255, 255, 255, .8); font-size: .72rem; font-weight: 600; letter-spacing: .11em; text-transform: uppercase; writing-mode: vertical-rl; }
+        .hero-scroll::after { width: 1px; height: 40px; display: inline-block; margin-top: 10px; content: ""; background: rgba(255, 255, 255, .55); }
+
+        .trust-strip { padding: 22px 0; border-bottom: 1px solid #eceef1; background: #fff; }
+        .trust-items { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px 40px; color: #737984; font-size: .79rem; font-weight: 600; }
+        .trust-items span { display: inline-flex; align-items: center; gap: 8px; }
+        .trust-items i { color: var(--red); font-size: 1rem; }
+        .section-space { padding: 94px 0; }
+        .section-eyebrow { margin-bottom: 11px; color: var(--red); font-size: .71rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+        .section-heading { max-width: 670px; margin: 0 auto; color: #1c2027; font-size: clamp(1.9rem, 3.8vw, 3rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.14; }
+        .section-copy { max-width: 640px; margin: 15px auto 0; color: var(--muted); line-height: 1.8; }
+        .feature-card { height: 100%; padding: 27px; border: 1px solid #eceef1; border-radius: 14px; background: #fff; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+        .feature-card:hover { transform: translateY(-4px); border-color: #f2c6c9; box-shadow: 0 16px 38px rgba(29, 32, 38, .08); }
+        .feature-icon { width: 48px; height: 48px; display: grid; place-items: center; margin-bottom: 22px; border-radius: 13px; color: var(--red); background: #fff0f1; font-size: 1.25rem; }
+        .feature-card h3 { margin-bottom: 9px; font-size: 1rem; font-weight: 750; }
+        .feature-card p { margin: 0; color: var(--muted); font-size: .86rem; line-height: 1.75; }
+        .info-band { padding: 55px 0; color: #fff; background: #171b23; }
+        .info-band h2 { margin: 0; color: #fff; font-size: clamp(1.65rem, 3vw, 2.25rem); font-weight: 800; letter-spacing: -.045em; }
+        .info-band p { margin: 10px 0 0; color: rgba(255, 255, 255, .68); line-height: 1.7; }
+        .info-band .btn { min-height: 48px; display: inline-flex; align-items: center; gap: 9px; }
+        .site-footer { padding: 27px 0; color: #858b94; background: #fff; font-size: .77rem; }
+        .site-footer a { color: #676d76; }
+        .site-footer a:hover { color: var(--red); }
+
+        @media (max-width: 991.98px) {
+            .navbar { min-height: 70px; }
+            .navbar-collapse { padding: 13px 0 18px; }
+            .nav-center { gap: 0; padding: 7px 0 14px; }
+            .nav-center .nav-link { padding: 10px 0; }
+            .nav-actions { align-items: flex-start !important; gap: 9px !important; }
+            .hero { min-height: 680px; background-position: 60% center; }
+            .hero::before { background: linear-gradient(90deg, rgba(12,16,23,.88), rgba(12,16,23,.61)), linear-gradient(0deg, rgba(12,16,23,.35), transparent); }
+            .hero-content { max-width: 720px; }
+        }
+        @media (max-width: 575.98px) {
+            .hero { min-height: 690px; min-height: min(740px, calc(100svh - 70px)); background-position: 58% center; }
+            .hero::before { background: linear-gradient(90deg, rgba(12,16,23,.83), rgba(12,16,23,.62)), linear-gradient(0deg, rgba(12,16,23,.36), transparent); }
+            .hero-content { padding-top: 18px; padding-bottom: 48px; }
+            .hero h1 { font-size: clamp(2.55rem, 12vw, 3.6rem); }
+            .hero-copy { font-size: .95rem; line-height: 1.7; }
+            .hero-actions { align-items: stretch; flex-direction: column; }
+            .hero-actions .btn { width: 100%; }
+            .hero-note { gap: 12px 18px; margin-top: 25px; font-size: .72rem; }
+            .hero-scroll { display: none; }
+            .section-space { padding: 68px 0; }
+            .trust-items { justify-content: flex-start; gap: 13px 22px; font-size: .73rem; }
+            .feature-card { padding: 22px; }
+            .info-band .row { text-align: center; }
+            .info-band .col-lg-auto { margin-top: 22px; }
+            .site-footer .footer-inner { align-items: flex-start !important; flex-direction: column; gap: 10px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg" aria-label="Navigasi utama">
+            <div class="container">
+                <a class="brand" href="#beranda" aria-label="PARKIR-APP, beranda">
+                    <i class="bi bi-geo-alt-fill brand-pin" aria-hidden="true"></i>
+                    <span class="brand-name">PARKIR<span>-APP</span></span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Buka menu navigasi">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavigation">
+                    <ul class="navbar-nav nav-center mx-auto">
+                        <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Kami</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#tarif">Tarif</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+                    </ul>
+                    <div class="nav-actions d-flex align-items-center gap-2">
+                        <div class="dropdown">
+                            <button class="btn language-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Pilih bahasa">ID</button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item active" href="#" lang="id">Indonesia (ID)</a></li>
+                                <li><a class="dropdown-item" href="#" lang="en">English (EN)</a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-login px-3 py-2" href="login.php">Masuk</a>
+                        <a class="btn btn-red px-3 py-2" href="#kontak">Daftar</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="beranda">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-kicker"><i class="bi bi-stars" aria-hidden="true"></i> PARKIR LEBIH CERDAS, OPERASIONAL LEBIH MUDAH</div>
+                    <h1>All in One <span class="accent">Parking Solution</span> untuk Semua Kebutuhan Beragam Model Operasional</h1>
+                    <p class="hero-copy">Sistem manajemen parkir otomatis, efisien, dan terintegrasi dalam satu platform untuk mendukung operasional Admin, Petugas, hingga Owner.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-red" href="login.php">Masuk ke Sistem <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-hero-outline" href="#kontak">Daftar Akun Baru <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="hero-note" aria-label="Keunggulan layanan">
+                        <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Data terintegrasi</span>
+                        <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Pemantauan real-time</span>
+                        <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Mudah digunakan</span>
+                    </div>
+                </div>
+            </div>
+            <a class="hero-scroll" href="#layanan" aria-label="Gulir ke layanan">Jelajahi</a>
+        </section>
+
+        <section class="trust-strip" aria-label="Pengguna platform">
+            <div class="container">
+                <div class="trust-items">
+                    <span><i class="bi bi-person-badge" aria-hidden="true"></i> Admin terkelola</span>
+                    <span><i class="bi bi-person-workspace" aria-hidden="true"></i> Petugas terhubung</span>
+                    <span><i class="bi bi-graph-up-arrow" aria-hidden="true"></i> Laporan untuk Owner</span>
+                    <span><i class="bi bi-shield-check" aria-hidden="true"></i> Alur transaksi tercatat</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-space" id="layanan">
+            <div class="container">
+                <div class="text-center mb-5" id="tentang">
+                    <div class="section-eyebrow">Satu platform, banyak kemudahan</div>
+                    <h2 class="section-heading">Semua operasional parkir dalam kendali Anda</h2>
+                    <p class="section-copy">Dari kendaraan masuk hingga laporan pendapatan, kelola proses parkir dengan alur yang jelas dan informasi yang mudah diakses.</p>
+                </div>
+                <div class="row g-3 g-lg-4">
+                    <div class="col-md-4">
+                        <article class="feature-card">
+                            <span class="feature-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
+                            <h3>Operasional lebih cepat</h3>
+                            <p>Catat kendaraan masuk dan keluar secara terstruktur agar proses di lapangan lebih praktis.</p>
+                        </article>
+                    </div>
+                    <div class="col-md-4" id="tarif">
+                        <article class="feature-card">
+                            <span class="feature-icon"><i class="bi bi-grid-1x2" aria-hidden="true"></i></span>
+                            <h3>Kapasitas terpantau</h3>
+                            <p>Lihat ketersediaan area parkir dan informasi slot untuk membantu petugas mengambil keputusan.</p>
+                        </article>
+                    </div>
+                    <div class="col-md-4" id="lokasi">
+                        <article class="feature-card">
+                            <span class="feature-icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></span>
+                            <h3>Laporan lebih jelas</h3>
+                            <p>Telusuri rekap transaksi dan pendapatan berdasarkan rentang waktu yang Anda perlukan.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-band" id="kontak">
+            <div class="container">
+                <div class="row align-items-center justify-content-between g-3">
+                    <div class="col-lg-8">
+                        <h2>Siap mengelola parkir dengan lebih baik?</h2>
+                        <p>Akun Petugas dan Owner dibuat oleh administrator. Masuk sebagai Admin untuk menambahkan pengguna baru.</p>
+                    </div>
+                    <div class="col-lg-auto">
+                        <a class="btn btn-red px-4" href="login.php">Masuk sebagai Admin <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner d-flex justify-content-between align-items-center">
+            <a class="brand" href="#beranda"><i class="bi bi-geo-alt-fill brand-pin" aria-hidden="true"></i><span class="brand-name">PARKIR<span>-APP</span></span></a>
+            <span>© <span id="currentYear"></span> PARKIR-APP. Sistem parkir yang lebih tertata.</span>
+            <a href="login.php">Masuk ke sistem <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        document.querySelectorAll('#mainNavigation .nav-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                var navigation = document.getElementById('mainNavigation');
+                if (navigation.classList.contains('show')) {
+                    bootstrap.Collapse.getOrCreateInstance(navigation).hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
